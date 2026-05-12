@@ -8,29 +8,9 @@ html,body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  /* background: radial-gradient(circle at 50% 30%, #1a1a1a, #0a0a0a); */
-  /* background: linear-gradient(to bottom, #291d0e, #3b3328); */
-  /* background: linear-gradient(to bottom, #2c2c2c, #1a1a1a); */
-  background: radial-gradient(circle at 40% 20%, #1c1a17, #0a0a0a);
-  background-blend-mode: overlay;
 }
 
 main {
   width: 100vw;
   height: 100svh;
-}
-
-.content {
-  position: absolute;
-  top: 5vh;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100vw;
-  h1 {
-    width: 100%;
-    text-align: center;
-    font-size: 2.5rem;
-    color: white;
-    font-family: serif;
-  }
 }
