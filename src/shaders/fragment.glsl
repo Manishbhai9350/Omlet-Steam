@@ -6,24 +6,23 @@ uniform float uTime;
 // Varyings
 varying vec2 vUv;
 
-vec3 breadColor = vec3(0.01); // light baked bread
 
 void main() {
 
-    vec2 pUv = vUv * vec2(.2, .2) - vec2(0.0, uTime * .03);
+    vec2 pUv = vUv * vec2(.42, .2) - vec2(0.0, uTime * .015);
     vec4 pNoise = texture(uPerlin, pUv);
 
     // Left Fade
-    float sideFades = smoothstep(0.0, .7, vUv.x);
+    float sideFades = smoothstep(0.0, .6, vUv.x);
     // Right Fade
-    sideFades *= 1.0 - smoothstep(.3, 1., vUv.x);
+    sideFades *= 1.0 - smoothstep(.4, 1., vUv.x);
     // Top Fade
-    sideFades *= 1.0 - smoothstep(.3, 1., vUv.y);
+    sideFades *= pow(1.0 - smoothstep(.7, 1., vUv.y),2.5);
     // Bottom Fade
-    sideFades *= smoothstep(0.0, .1, vUv.y);
+    sideFades *= smoothstep(0.0, .05, vUv.y);
 
     float alpha = pNoise.r;
-    alpha = pow(alpha, 2.0);
+    alpha = pow(alpha, 2.3);
     alpha *= sideFades;
 
     if(alpha < .0001) {
@@ -35,15 +34,12 @@ void main() {
 
     float t = pNoise.g;
     vec3 color = mix(lightPart, darkPart, t);
-    float edge = smoothstep(0.4, 0.9, length(vUv - 0.5));
+    float edge = smoothstep(0., 0.9, length(vUv - 0.5));
     color = mix(color, vec3(0.5, 0.3, 0.1), edge * 0.4);
-    color *= vec3(1.0, 0.96, 0.84); // warm sunlight feel
-    float center = 1.0 - length(vUv - 0.5);
-    color += center * 0.1;
-
-    vec3 smokeColor = vec3(1.0);
-    smokeColor = breadColor;
+    color *= vec3(0.74, 0.55, 0.0); // warm sunlight feel
 
     gl_FragColor = vec4(color, alpha);
     // gl_FragColor = vec4(sideFades,0., 0., 1.0);
+    // gl_FragColor = vec4(vec3(1.0,0.0,0.0), 1.0);
+
 }

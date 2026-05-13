@@ -29,8 +29,8 @@ const camera = new THREE.PerspectiveCamera(
   1,
   1000,
 );
-camera.position.z = 5 * 2;
-camera.position.y = 3 * 2;
+camera.position.z = 5 * 2.5;
+camera.position.y = 3 * 2 * 0;
 
 const controls = new OrbitControls(camera, canvas);
 
@@ -56,7 +56,7 @@ const omlet = {
   // Omlet
   model: null,
   scale: 40,
-  translation:[-1,-4,0],
+  translation:[0,-4 - 3,0],
 
   // Smoke
   smoke_position: new THREE.Vector3(),
@@ -69,7 +69,8 @@ const omlet = {
     fragmentShader,
     transparent:true,
     side:THREE.DoubleSide,
-    depthWrite:false
+    depthWrite:false,
+    // wireframe:true
   })
 };
 
@@ -81,6 +82,8 @@ GLB.load("/model/omlet.glb", (glb) => {
   glb.scene.traverse((n) => {
     if (n.isMesh && n.name == "Eggwhite_white_0") {
       omlet.smoke_position.copy(n.position).multiplyScalar(1);
+      omlet.smoke_position.x -= 0.2;
+      omlet.smoke_position.z += .5;
     }
   });
 
@@ -91,10 +94,10 @@ GLB.load("/model/omlet.glb", (glb) => {
 
   // Omlet Smoke
   omlet.smoke = new THREE.Mesh(
-    new THREE.PlaneGeometry(omlet.smoke_dims[0], omlet.smoke_dims[1]),
+    new THREE.PlaneGeometry(omlet.smoke_dims[0], omlet.smoke_dims[1],10,50),
     omlet.material,
   );
-  omlet.smoke.geometry.translate(-1,omlet.smoke_dims[1]/2 - omlet.smoke_position.y / 2 + omlet.translation[1],0.3);
+  omlet.smoke.geometry.translate(0,omlet.smoke_dims[1]/2 - omlet.smoke_position.y / 2 + omlet.translation[1],0);
   omlet.smoke.position.copy(omlet.smoke_position)
 
   scene.add(omlet.smoke);
